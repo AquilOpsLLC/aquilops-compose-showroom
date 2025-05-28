@@ -9,7 +9,7 @@ RUN useradd -m -u 1000 mlflow
 
 WORKDIR /mlflow
 RUN mkdir /mlflow/mlruns /mlflow/data
-RUN chmod -R mlflow:mlflow /mlflow
+RUN chown -R mlflow:mlflow /mlflow
 
 USER mlflow
 
