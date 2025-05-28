@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mlflow:
+    build: .
+    container_name: mlflow-server
+    ports:
+     - "5000:5000"
+    volumes: 
+     - ./mlruns:/mlflow/mlruns
+     - ./data:/mlflow/data
+    environment:
+     - MFLOW_BACKEND_STORE_URI=sqlite:////mlflow/data/mlflow.db
+     - MFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/mlruns
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
